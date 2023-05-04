@@ -33,7 +33,7 @@ const fragment = document.createDocumentFragment()
 const extractedMatches = matches.slice(0, 36) //gets all the objects from books
 const { author, image, title, id } = matches //gets properties from books objects; correctly retrieved??
 
-for (let i = 0; matches[i] < extractedMatches.length; i++) { /* takes the info from each property in matches and sets it to 'preview' */
+for (let i = 0; matches[i] < extractedMatches.length; i++) { /* b takes the info from each property in matches and sets it to 'preview' */
     //THERES SOMETHING MISSING HERE
 
     //(const { author, image, title, id } = matches; extracted; i++) //original loop content
