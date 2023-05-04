@@ -12,9 +12,6 @@ if (!matches && matches.length < 2){ //
 } 
 
 
-console.log(!matches && matches.length < 2 )
-
-
 //rgb for toggle option for used to be able to choose between dark and light mode
 let day = {
     dark: '10, 10, 20',
@@ -29,9 +26,9 @@ let night = {
 
 // // LOGIC TO DISPLAY BOOKS
 
-const fragment = document.createDocumentFragment()
+const fragmentMatches = document.createDocumentFragment()
 const extractedMatches = matches.slice(0, 36) //gets all the objects from books
-const { author, image, title, id } = matches //gets properties from books objects; correctly retrieved??
+const [ author, image, title, id ] = matches //gets properties from books objects; correctly retrieved??
 
 for (let i = 0; matches[i] < extractedMatches.length; i++) { /* b takes the info from each property in matches and sets it to 'preview' */
     //THERES SOMETHING MISSING HERE
@@ -46,36 +43,32 @@ for (let i = 0; matches[i] < extractedMatches.length; i++) { /* b takes the info
         title
     }
 
-    return fragment.appendChild(preview) //return added 
+    fragmentMatches.appendChild(preview)
 }
 
 const dataListItems = document.querySelector('[data-list-items]')
-dataListItems.appendChild(fragment) //fragment containing books to be appended onto element [data-list-items]
-
-console.log(extractedMatches)
+dataListItems.appendChild(fragmentMatches) //fragment containing books to be appended onto element [data-list-items]
 
 
 // //  LOGIC TO DISPLAY GENRES
 
-// const genresFragment = document.createDocumentFragment() //previously uninitialised
-// const genreElement = document.createElement('option') //type of html element
+const genresFragment = document.createDocumentFragment() //previously uninitialised
+const genresElement = document.createElement('option') //type of html element
 
-// //have to set element to sth i.o.t be appended to genres fragment
-// genreElement.value = 'any'
-// element = 'All Genres' //this might be a text element meant to display the string
-// genresFragment.appendChild(element)
+//have to set element to sth i.o.t be appended to genres fragment
+genresElement.value = 'All Genres' //The value property sets or returns the value of the value attribute of a text field.
+genresFragment.appendChild(genresElement)
 
+for ([id, name]; Object.entries(genres); i++) {
+    document.createElement('option')
+    element.value = value
+    element.innerText = text
+    genres.appendChild(element)
 
-// for ([id, name]; Object.entries(genres); i++) {
-//     document.createElement('option')
-//     element.value = value
-//     element.innerText = text
-//     genres.appendChild(element)
+    //to be returned??
+}
 
-//     //to be returned??
-// }
-
-// const dataSearchGenres = document.querySelector('[data-search-genres]').appendChild(genres)
+const dataSearchGenres = document.querySelector('[data-search-genres]').appendChild(genres)
 
 
 // //LOGIC TO DISPLAY AUTHORS
@@ -122,6 +115,7 @@ console.log(extractedMatches)
 
 
 // //LOGIC FOR EVENT LISTENERS    
+
 // const dataSearchCancel = document.querySelector('[data-search-cancel]') //button
 // const dataSearchOverlay = document.querySelector('[data-search-overlay]')
 // dataSearchCancel.addEventListener(
@@ -163,7 +157,7 @@ console.log(extractedMatches)
 //     'click',
 //     () => { //what does the following mean? 
 //         actions.list.updateRemaining()
-//         page = page + 1
+//         page = page + 1-+
 //     }
 // )
 // // data-list-button.click() {
