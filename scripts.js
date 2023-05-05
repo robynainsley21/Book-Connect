@@ -33,12 +33,11 @@ const [ author , image, title, id ] = matches; //gets properties from books obje
 for (let i = 0; matches[i] < extractedMatches.length; i++) { /* i takes the info from each property in matches and sets it to 'preview' */
         //creates a child element that mimics the content of the matches object and appends to the created fragment
     const preview = {
-        author,
-        id,
-        image,
-        title
+        author: extractedMatches[i]['author'],
+        id: extractedMatches[i]['id'],
+        image: extractedMatches[i]['image'],
+        title: extractedMatches[i]['title']
     };
-
     fragmentMatches.appendChild(preview);
     // return fragmentMatches;
 }
@@ -51,15 +50,15 @@ for (let i = 0; matches[i] < extractedMatches.length; i++) { /* i takes the info
 // LOGIC TO DISPLAY GENRES
 
 const genresFragment = document.createDocumentFragment(); //previously uninitialised
-const genresElement = document.createElement('option'); //type of html element
+let genresElement = document.createElement('option'); //type of html element
 
 //have to set element to sth i.o.t be appended to genres fragment; fallback for if loop does not exist
 genresElement.value = 'any';
 genresElement.innerText = 'All Genres'; //The value property sets or returns the value of the value attribute of a text field.
 genresFragment.appendChild(genresElement); //why is it being appended here and then in the loop again?
 
-for ( const [id, name] of Object.entries(genres) ) {
-    // document.createElement('option')
+for ( const [ id, name ] of Object.entries(genres) ) {
+    document.createElement('option')
     genresElement.value = id;
     genresElement.innerText = name;
     genresFragment.appendChild(genresElement); //after every loop genresElement is appended to genresFragment
@@ -67,51 +66,51 @@ for ( const [id, name] of Object.entries(genres) ) {
     //to be returned??
 };
 
-//KEEP THIS HERE
-const dataSearchGenres = document.querySelector('[data-search-genres]').appendChild(genresElement)
+const dataSearchGenres = document.querySelector('[data-search-genres]').appendChild(genresElement);
 
-console.log(genresElement)
 
-// //LOGIC TO DISPLAY AUTHORS
+//LOGIC TO DISPLAY AUTHORS
 
-// const authorsFragment = document.createDocumentFragment() //uninitialised
-// const authorsElement = document.createElement('option') //element to contain
-// element.value = 'any'
-// element.innerText = 'All Authors'
-// authorsFragment.appendChild(element)
+const authorsFragment = document.createDocumentFragment();
+let authorsElement = document.createElement('option'); //element to contain loop content
+authorsElement.value = 'any';
+authorsElement.innerText = 'All Authors';
+authorsFragment.appendChild(authorsElement);
 
-// for ([id, name];Object.entries(authors); id++) {
-//     document.createElement('option')
-//     element.value = value
-//     element = text
-//     authors.appendChild(element)
-// }
+for ( const [ id, name ] of Object.entries(authors) ) {
+    document.createElement('option');
+    authorsElement.value = id;
+    authorsElement.innerText = name;
+    authorsFragment.appendChild(authorsElement);
+};
 
-// const dataSearchAuthors = document.querySelector('[data-search-authors]').appendChild(authors)
+const dataSearchAuthors = document.querySelector('[data-search-authors]').appendChild(authorsFragment)
+
+console.log(dataSearchAuthors)
 
 
 // //CONDITIONALS FOR SETTING LIGHT AND DARK MODE (DAY AND NIGHT)
 
-// const dataSettingsTheme = document.querySelector('[data-settings-theme]')
+const dataSettingsTheme = document.querySelector('[data-settings-theme]')
 
-// //what value needs to be accessed for it to be tested as true?
-// dataSettingsTheme.value === window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
-// v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches? 'night' : 'day'
+//what value needs to be accessed for it to be tested as true?
+dataSettingsTheme.value === window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
+const v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches? 'night' : 'day'
 
-// dataSettingsTheme.style.setProperty('--color-dark', css[v].dark); //is v an object?; returns value of v
-// dataSettingsTheme.style.setProperty('--color-light', css[v].light);
+dataSettingsTheme.style.setProperty('--color-dark', css[v].dark); // returns value of v
+dataSettingsTheme.style.setProperty('--color-light', css[v].light);
 
 
-// const dataListButton = document.querySelector('[data-list-button]')
-// // dataListButton.innerHTML = "Show more (books.length - BOOKS_PER_PAGE)" //see row 111
+const dataListButton = document.querySelector('[data-list-button]')
+// dataListButton.innerHTML = "Show more (books.length - BOOKS_PER_PAGE)" //see row 111
 
-// dataListButton.disabled = !(matches.length - [page * BOOKS_PER_PAGE] > 0) //other way around? disables button if conditional is true
+dataListButton.disabled = !(matches.length - [page * BOOKS_PER_PAGE] > 0) //other way around? disables button if conditional is true
 
-// dataListButton.innerHTML = //previously an array 
-//     `
-//     <span> Show more ${books.length - BOOKS_PER_PAGE}</span>
-//     <span class="list__remaining"> (${matches.length - [page * BOOKS_PER_PAGE] > 0 ? matches.length - [page * BOOKS_PER_PAGE] : 0})</span>
-//     `
+dataListButton.innerHTML = //previously an array 
+    `
+    <span> Show more ${books.length - BOOKS_PER_PAGE}</span>
+    <span class="list__remaining"> (${matches.length - [page * BOOKS_PER_PAGE] > 0 ? matches.length - [page * BOOKS_PER_PAGE] : 0})</span>
+    `
 
 
 
