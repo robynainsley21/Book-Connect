@@ -57,7 +57,7 @@ genresElement.value = 'any';
 genresElement.innerText = 'All Genres'; //The value property sets or returns the value of the value attribute of a text field.
 genresFragment.appendChild(genresElement); //why is it being appended here and then in the loop again?
 
-for ( const { id, name } of Object.entries(genres) ) {
+for ( const [ id, name ] of Object.entries(genres) ) {
     document.createElement('option')
     genresElement.value = id;
     genresElement.innerText = name;
@@ -66,7 +66,7 @@ for ( const { id, name } of Object.entries(genres) ) {
     //to be returned??
 };
 
-const dataSearchGenres = document.querySelector('[data-search-genres]').appendChild(genresElement);
+const dataSearchGenres = document.querySelector('[data-search-genres]').appendChild(genresFragment);
 
 
 //LOGIC TO DISPLAY AUTHORS
@@ -98,19 +98,21 @@ const dataSettingsTheme = document.querySelector('[data-settings-theme]')
 dataSettingsTheme.value === window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
 const v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
 
-dataSettingsTheme.style.setProperty('--color-dark', css[v].dark); // returns value of v
+dataSettingsTheme.style.setProperty('--color-dark', css[v].dark); // returns value of v; what is css equal to?
 dataSettingsTheme.style.setProperty('--color-light', css[v].light);
 
 
 const dataListButton = document.querySelector('[data-list-button]')
 // dataListButton.innerHTML = "Show more (books.length - BOOKS_PER_PAGE)" //see row 111
 
+
+
 dataListButton.disabled = !(matches.length - [page * BOOKS_PER_PAGE] > 0) //other way around? disables button if conditional is true
 
 dataListButton.innerHTML = //previously an array 
     `
     <span> Show more ${books.length - BOOKS_PER_PAGE}</span>
-    <span class="list__remaining"> (${matches.length - [page * BOOKS_PER_PAGE] > 0 ? matches.length - [page * BOOKS_PER_PAGE] : 0})</span>
+    <span class="list__remaining">${matches.length - [page * BOOKS_PER_PAGE] > 0 ? matches.length - [page * BOOKS_PER_PAGE] : 0}</span>
     `
 
 
