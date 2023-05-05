@@ -62,8 +62,6 @@ for ( const [ id, name ] of Object.entries(genres) ) {
     genresElement.value = id;
     genresElement.innerText = name;
     genresFragment.appendChild(genresElement); //after every loop genresElement is appended to genresFragment
-
-    //to be returned??
 };
 
 const dataSearchGenres = document.querySelector('[data-search-genres]').appendChild(genresFragment);
@@ -86,8 +84,6 @@ for ( const [ id, name ] of Object.entries(authors) ) {
 
 const dataSearchAuthors = document.querySelector('[data-search-authors]').appendChild(authorsFragment)
 
-console.log(dataSearchAuthors)
-
 
 //CONDITIONALS FOR SETTING LIGHT AND DARK MODE (DAY AND NIGHT)
 
@@ -98,8 +94,8 @@ const dataSettingsTheme = document.querySelector('[data-settings-theme]')
 dataSettingsTheme.value === window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
 const v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
 
-dataSettingsTheme.style.setProperty('--color-dark', css[v].dark); // returns value of v; what is css equal to?
-dataSettingsTheme.style.setProperty('--color-light', css[v].light);
+// dataSettingsTheme.style.setProperty('--color-dark', css[v].dark); // returns value of v; what is css equal to?
+// dataSettingsTheme.style.setProperty('--color-light', css[v].light);
 
 
 //LOGIC FOR CHANGING TO NEXT PAGE
@@ -115,21 +111,45 @@ if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditio
     <span> Show more</span>
     <span class="list__remaining">(${matches.length - [page * BOOKS_PER_PAGE] > 0 ? matches.length - [page * BOOKS_PER_PAGE] : ''})</span>
     `
-}
+};
 
 
-// //LOGIC FOR EVENT LISTENERS    
+//LOGIC FOR EVENT LISTENERS    
+
+const dataSearchOverlay = document.querySelector('[data-search-overlay]')//dialog box to be made visible
+
+
+
+const dataSearchTitle = document.querySelector('[data-search-title]')
+dataSearchOverlay.addEventListener(
+    'click',
+    () => {
+        dataSearchOverlay.open === true
+        dataSearchTitle.focus()
+    }
+)
+// data-header-search.click() {
+//     data-search-overlay.open === true ;
+//     data-search-title.focus();
+// }
+
+const dataHeaderSearch = document.querySelector('[data-header-search]')
+
+
 
 // const dataSearchCancel = document.querySelector('[data-search-cancel]') //button
-// const dataSearchOverlay = document.querySelector('[data-search-overlay]')
-// dataSearchCancel.addEventListener(
-//     'click', 
-//     () => { 
-//         dataSearchOverlay.open === false 
-//         }
-//     )
 
+
+// const dataSearchCancelToggle = (event) => {
+//     dataSearchOverlay.setAttribute('open', false);
+// }
+
+// dataSearchCancel.addEventListener('click', dataSearchCancelToggle);
+
+// console.log(dataSearchOverlay)
 // // data-search-cancel.click() { data-search-overlay.open === false } //previously
+
+
 
 // const dataSettingsCancel = document.querySelector('[data-settings-cancel]')
 // const dataSettingsOverlay = document.querySelector('[data-settings-overlay]')
@@ -156,7 +176,6 @@ if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditio
 
 
 // // const dataListButton = document.querySelector('[data-list-button]') //already declared
-// // const dataListItems = document.querySelector([data-list-items]) //already declared at line 50
 // dataListItems.addEventListener(
 //     'click',
 //     () => { //what does the following mean? 
@@ -170,19 +189,7 @@ if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditio
 // //     page = page + 1
 // // }
 
-// const dataHeaderSearch = document.querySelector('[data-header-search]')
-// const dataSearchTitle = document.querySelector('[data-search-title]')
-// dataSearchOverlay.addEventListener(
-//     'click',
-//     () => {
-//         dataSearchOverlay.open === true
-//         dataSearchTitle.focus()
-//     }
-// )
-// // data-header-search.click() {
-// //     data-search-overlay.open === true ;
-// //     data-search-title.focus();
-// // }
+
 
 // const dataSearchForm = document.addEventListener('[data-search-form]')
 // dataSearchForm.addEventListener(
@@ -252,6 +259,9 @@ if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditio
 //         data-search-overlay.open === false
 //     }
 // )
+
+
+
 // //PREVIOUS CODE
 // // // data-search-form.click(filters) {
 // // //     preventDefault()
