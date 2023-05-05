@@ -42,7 +42,7 @@ for (let i = 0; matches[i] < extractedMatches.length; i++) { /* i takes the info
     // return fragmentMatches;
 }
 
-//KEEP THIS HERE
+//KEEP THIS HERE; to be used somewhere else the code
 // const dataListItems = document.querySelector('[data-list-items]');
 // dataListItems.appendChild(fragmentMatches); //fragment containing books to be appended onto element [data-list-items]
 
@@ -57,7 +57,7 @@ genresElement.value = 'any';
 genresElement.innerText = 'All Genres'; //The value property sets or returns the value of the value attribute of a text field.
 genresFragment.appendChild(genresElement); //why is it being appended here and then in the loop again?
 
-for ( const [ id, name ] of Object.entries(genres) ) {
+for ( const { id, name } of Object.entries(genres) ) {
     document.createElement('option')
     genresElement.value = id;
     genresElement.innerText = name;
@@ -89,13 +89,14 @@ const dataSearchAuthors = document.querySelector('[data-search-authors]').append
 console.log(dataSearchAuthors)
 
 
-// //CONDITIONALS FOR SETTING LIGHT AND DARK MODE (DAY AND NIGHT)
+//CONDITIONALS FOR SETTING LIGHT AND DARK MODE (DAY AND NIGHT)
 
 const dataSettingsTheme = document.querySelector('[data-settings-theme]')
 
-//what value needs to be accessed for it to be tested as true?
+//window.matchMedia returns a new MediaQueryList object that can then be used to determine if the document matches the media query string, 
+//as well as to monitor the document to detect when it matches (or stops matching) that media query.
 dataSettingsTheme.value === window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
-const v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches? 'night' : 'day'
+const v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
 
 dataSettingsTheme.style.setProperty('--color-dark', css[v].dark); // returns value of v
 dataSettingsTheme.style.setProperty('--color-light', css[v].light);
