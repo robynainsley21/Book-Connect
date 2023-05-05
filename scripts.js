@@ -7,7 +7,7 @@ if (!matches && !Array.isArray(matches)) { /* testing if books exists */
     throw new Error('Source required') 
 }
 
-if (!matches && matches.length < 2){ //
+if (!matches && matches.length < 2){ //previously range; what is range equal to?
     throw new Error('Range must be an array with two numbers')
 } 
 
@@ -26,9 +26,9 @@ let night = {
 
 // // LOGIC TO DISPLAY BOOKS
 
-const fragmentMatches = document.createDocumentFragment()
-const extractedMatches = matches.slice(0, 36) //gets all the objects from books
-const [ author, image, title, id ] = matches //gets properties from books objects; correctly retrieved??
+const fragmentMatches = document.createDocumentFragment();
+const extractedMatches = matches.slice(0, 36); //gets all the objects from books
+const [ author, image, title, id ] = matches; //gets properties from books objects; correctly retrieved??
 
 for (let i = 0; matches[i] < extractedMatches.length; i++) { /* b takes the info from each property in matches and sets it to 'preview' */
     //THERES SOMETHING MISSING HERE
@@ -41,35 +41,39 @@ for (let i = 0; matches[i] < extractedMatches.length; i++) { /* b takes the info
         id,
         image,
         title
-    }
+    };
 
-    fragmentMatches.appendChild(preview)
+    fragmentMatches.appendChild(preview);
+    return fragmentMatches;
 }
 
-const dataListItems = document.querySelector('[data-list-items]')
-dataListItems.appendChild(fragmentMatches) //fragment containing books to be appended onto element [data-list-items]
+const dataListItems = document.querySelector('[data-list-items]');
+dataListItems.appendChild(fragmentMatches); //fragment containing books to be appended onto element [data-list-items]
 
 
 // //  LOGIC TO DISPLAY GENRES
 
-const genresFragment = document.createDocumentFragment() //previously uninitialised
-const genresElement = document.createElement('option') //type of html element
+const genresFragment = document.createDocumentFragment(); //previously uninitialised
+const genresElement = document.createElement('option'); //type of html element
 
 //have to set element to sth i.o.t be appended to genres fragment
-genresElement.value = 'All Genres' //The value property sets or returns the value of the value attribute of a text field.
-genresFragment.appendChild(genresElement)
+genresElement.value = 'any';
+genresElement.innerHTML = 'All Genres'; //The value property sets or returns the value of the value attribute of a text field.
+genresFragment.appendChild(genresElement);
 
-for ([id, name]; Object.entries(genres); i++) {
-    document.createElement('option')
-    element.value = value
-    element.innerText = text
-    genres.appendChild(element)
+for ( const [id, name] of Object.entries(genres) ) {
+    // document.createElement('option')
+
+    genresElement.value = id;
+    genresElement.innerText = name;
+    genresFragment.appendChild(genresElement); //after every loop genresElement is appended to genresFragment
 
     //to be returned??
-}
+};
 
-const dataSearchGenres = document.querySelector('[data-search-genres]').appendChild(genres)
-
+const dataSearchGenres = document.querySelector('[data-search-genres]')
+dataSearchGenres.appendChild(genres)
+console.log(genres)
 
 // //LOGIC TO DISPLAY AUTHORS
 
