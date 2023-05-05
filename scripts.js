@@ -102,19 +102,20 @@ dataSettingsTheme.style.setProperty('--color-dark', css[v].dark); // returns val
 dataSettingsTheme.style.setProperty('--color-light', css[v].light);
 
 
-const dataListButton = document.querySelector('[data-list-button]')
-// dataListButton.innerHTML = "Show more (books.length - BOOKS_PER_PAGE)" //see row 111
+//LOGIC FOR CHANGING TO NEXT PAGE
 
+const dataListButton = document.querySelector('[data-list-button]');
 
-
-dataListButton.disabled = !(matches.length - [page * BOOKS_PER_PAGE] > 0) //other way around? disables button if conditional is true
-
-dataListButton.innerHTML = //previously an array 
+if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditional is true
+    dataListButton.disabled = true;
+    
+} else {
+    dataListButton.innerHTML = //previously an array 
     `
-    <span> Show more ${books.length - BOOKS_PER_PAGE}</span>
-    <span class="list__remaining">${matches.length - [page * BOOKS_PER_PAGE] > 0 ? matches.length - [page * BOOKS_PER_PAGE] : 0}</span>
+    <span> Show more</span>
+    <span class="list__remaining">(${matches.length - [page * BOOKS_PER_PAGE] > 0 ? matches.length - [page * BOOKS_PER_PAGE] : ''})</span>
     `
-
+}
 
 
 // //LOGIC FOR EVENT LISTENERS    
