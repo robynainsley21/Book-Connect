@@ -118,14 +118,13 @@ if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditio
 
 const dataSearchOverlay = document.querySelector('[data-search-overlay]')//dialog box to be made visible
 const dataHeaderSearch = document.querySelector('[data-header-search]') //button
-//when the dataHeaderSearch button is clicked, the dataSearchOverlay dialogue pops appears
+//when the dataHeaderSearch button is clicked, the dataSearchOverlay dialogue appears
 dataHeaderSearch.addEventListener(
     'click', 
     () => {
         dataSearchOverlay.setAttribute('open', true)
     }
 )
-
 
 const dataSearchTitle = document.querySelector('[data-search-title]')
 dataSearchOverlay.addEventListener(
