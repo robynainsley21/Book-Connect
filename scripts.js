@@ -108,7 +108,7 @@ if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditio
 } else {
     dataListButton.innerHTML = //previously an array 
     `
-    <span> Show more</span>
+    <span>Show more</span>
     <span class="list__remaining">(${matches.length - [page * BOOKS_PER_PAGE] > 0 ? matches.length - [page * BOOKS_PER_PAGE] : ''})</span>
     `
 };
@@ -117,7 +117,14 @@ if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditio
 //LOGIC FOR EVENT LISTENERS    
 
 const dataSearchOverlay = document.querySelector('[data-search-overlay]')//dialog box to be made visible
-
+const dataHeaderSearch = document.querySelector('[data-header-search]') //button
+//when the dataHeaderSearch button is clicked, the dataSearchOverlay dialogue pops appears
+dataHeaderSearch.addEventListener(
+    'click', 
+    () => {
+        dataSearchOverlay.setAttribute('open', true)
+    }
+)
 
 
 const dataSearchTitle = document.querySelector('[data-search-title]')
@@ -133,7 +140,6 @@ dataSearchOverlay.addEventListener(
 //     data-search-title.focus();
 // }
 
-const dataHeaderSearch = document.querySelector('[data-header-search]')
 
 
 
