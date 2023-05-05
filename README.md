@@ -1,6 +1,6 @@
 # IWA19-capstone
 
-## Presentation Slides
+## Presentation Slides: https://www.canva.com/design/DAFiDdfDQsk/viqOQD22CcwKMSGxv-O7sA/edit?utm_content=DAFiDdfDQsk&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton 
 
 Final Capstone Project IWA19
 
