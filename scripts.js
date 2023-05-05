@@ -28,14 +28,10 @@ let night = {
 
 const fragmentMatches = document.createDocumentFragment();
 const extractedMatches = matches.slice(0, 36); //gets all the objects from books
-const [ author, image, title, id ] = matches; //gets properties from books objects; correctly retrieved??
+const [ author , image, title, id ] = matches; //gets properties from books objects; correctly retrieved??
 
-for (let i = 0; matches[i] < extractedMatches.length; i++) { /* b takes the info from each property in matches and sets it to 'preview' */
-    //THERES SOMETHING MISSING HERE
-
-    //(const { author, image, title, id } = matches; extracted; i++) //original loop content
-
-    //creates a child element that mimics the content of the matches object and appends to the created fragment
+for (let i = 0; matches[i] < extractedMatches.length; i++) { /* i takes the info from each property in matches and sets it to 'preview' */
+        //creates a child element that mimics the content of the matches object and appends to the created fragment
     const preview = {
         author,
         id,
@@ -44,22 +40,23 @@ for (let i = 0; matches[i] < extractedMatches.length; i++) { /* b takes the info
     };
 
     fragmentMatches.appendChild(preview);
-    return fragmentMatches;
+    // return fragmentMatches;
 }
 
-const dataListItems = document.querySelector('[data-list-items]');
-dataListItems.appendChild(fragmentMatches); //fragment containing books to be appended onto element [data-list-items]
+//KEEP THIS HERE
+// const dataListItems = document.querySelector('[data-list-items]');
+// dataListItems.appendChild(fragmentMatches); //fragment containing books to be appended onto element [data-list-items]
 
 
-// //  LOGIC TO DISPLAY GENRES
+// LOGIC TO DISPLAY GENRES
 
 const genresFragment = document.createDocumentFragment(); //previously uninitialised
 const genresElement = document.createElement('option'); //type of html element
 
 //have to set element to sth i.o.t be appended to genres fragment
 genresElement.value = 'any';
-genresElement.innerHTML = 'All Genres'; //The value property sets or returns the value of the value attribute of a text field.
-genresFragment.appendChild(genresElement);
+genresElement.innerText = 'All Genres'; //The value property sets or returns the value of the value attribute of a text field.
+genresFragment.appendChild(genresElement); //why is it being appended here and then in the loop again?
 
 for ( const [id, name] of Object.entries(genres) ) {
     // document.createElement('option')
@@ -71,9 +68,10 @@ for ( const [id, name] of Object.entries(genres) ) {
     //to be returned??
 };
 
-const dataSearchGenres = document.querySelector('[data-search-genres]')
-dataSearchGenres.appendChild(genres)
-console.log(genres)
+//KEEP THIS HERE
+const dataSearchGenres = document.querySelector('[data-search-genres]').appendChild(genresElement)
+
+// console.log(dataSearchGenres)
 
 // //LOGIC TO DISPLAY AUTHORS
 
