@@ -53,14 +53,13 @@ for (let i = 0; matches[i] < extractedMatches.length; i++) { /* i takes the info
 const genresFragment = document.createDocumentFragment(); //previously uninitialised
 const genresElement = document.createElement('option'); //type of html element
 
-//have to set element to sth i.o.t be appended to genres fragment
+//have to set element to sth i.o.t be appended to genres fragment; fallback for if loop does not exist
 genresElement.value = 'any';
 genresElement.innerText = 'All Genres'; //The value property sets or returns the value of the value attribute of a text field.
 genresFragment.appendChild(genresElement); //why is it being appended here and then in the loop again?
 
 for ( const [id, name] of Object.entries(genres) ) {
     // document.createElement('option')
-
     genresElement.value = id;
     genresElement.innerText = name;
     genresFragment.appendChild(genresElement); //after every loop genresElement is appended to genresFragment
@@ -71,7 +70,7 @@ for ( const [id, name] of Object.entries(genres) ) {
 //KEEP THIS HERE
 const dataSearchGenres = document.querySelector('[data-search-genres]').appendChild(genresElement)
 
-// console.log(dataSearchGenres)
+console.log(genresElement)
 
 // //LOGIC TO DISPLAY AUTHORS
 
