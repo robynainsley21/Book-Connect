@@ -13,38 +13,66 @@ if (!matches && matches.length < 2){ //previously range; what is range equal to?
 
 
 //rgb for toggle option for used to be able to choose between dark and light mode
-let day = {
-    dark: '10, 10, 20',
-    light: '255, 255, 255',
+
+const theme = {
+    day : {
+        dark: '10, 10, 20',
+        light: '255, 255, 255',
+    },
+    
+    night : {
+        dark: '255, 255, 255',
+        light: '10, 10, 20',
+    }
 }
 
-let night = {
-    dark: '255, 255, 255',
-    light: '10, 10, 20',
-}
+//CLICKABLE ELEMENTS AND POPUP BOXES
+const dataSearchOverlay = document.querySelector('[data-search-overlay]');//dialog box to be made visible
+const dataHeaderSearch = document.querySelector('[data-header-search]'); //button for search box
+const dataSearchTitle = document.querySelector('[data-search-title]'); //title input
+const dataSearchCancel = document.querySelector('[data-search-cancel]'); //button to close search box
+const dataHeaderSettings = document.querySelector('[data-header-settings]');
 
+const dataSettingsOverlay = document.querySelector('[data-settings-overlay]');
+const dataSettingsForm = document.querySelector('[data-settings-form]');
+const dataSettingsCancel = document.querySelector('[data-settings-cancel]');
 
-// // LOGIC TO DISPLAY BOOKS
+const dataListItems = document.querySelector('[data-list-items]');
+const dataListClose = document.querySelector('[data-list-close]');
+const dataListActive = document.querySelector('[data-list-active]');
+const dataListBlur = document.querySelector('[data-list-blur]')//img tag
+
+// LOGIC TO DISPLAY BOOKS
 
 const fragmentMatches = document.createDocumentFragment();
 const extractedMatches = matches.slice(0, 36); //gets all the objects from books
-const [ author , image, title, id ] = matches; //gets properties from books objects; correctly retrieved??
 
-for (let i = 0; matches[i] < extractedMatches.length; i++) { /* i takes the info from each property in matches and sets it to 'preview' */
-        //creates a child element that mimics the content of the matches object and appends to the created fragment
-    const preview = {
-        author: extractedMatches[i]['author'],
-        id: extractedMatches[i]['id'],
-        image: extractedMatches[i]['image'],
-        title: extractedMatches[i]['title']
-    };
-    fragmentMatches.appendChild(preview);
-    // return fragmentMatches;
+//creating the content for the books first
+const revealBookPreview = (matches) => {
+    const { author, id, image, title } = matches //extracting the properties of the objects in the matches array
+
+    const bookElement = document.createElement('div') //creating a piece of html to attach content to (was none previously)
+    bookElement.classList.add('preview'); //adding the class 'preview' from css file to apply styling
+    
+    bookElement.innerHTML = 
+    `
+    <div class="preview__info">
+        <h3 class="preview__title">${title}<h3> 
+        <div class="preview__author">${author}</div>
+    </div>
+
+    <img class="preview__image" src="${image}"/>
+    `;
+
+    return bookElement;
 }
 
-//KEEP THIS HERE; to be used somewhere else the code
-// const dataListItems = document.querySelector('[data-list-items]');
-// dataListItems.appendChild(fragmentMatches); //fragment containing books to be appended onto element [data-list-items]
+//looping through each item in the selected objects in extractedMatches and appending created html content from revealBookPreview
+for (const book of extractedMatches){
+    const bookPreview = revealBookPreview(book)
+    dataListItems.appendChild(bookPreview); //fragment containing books to be appended onto element [data-list-items]
+}
+
 
 
 // LOGIC TO DISPLAY GENRES
@@ -116,61 +144,67 @@ if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditio
 
 //LOGIC FOR EVENT LISTENERS    
 
-const dataSearchOverlay = document.querySelector('[data-search-overlay]')//dialog box to be made visible
-const dataHeaderSearch = document.querySelector('[data-header-search]') //button
+// dataListItems.showModal()
+
+
+
+
+// const revealBooks = (event) => {
+//     if ()
+// }
+
+
+
 //when the dataHeaderSearch button is clicked, the dataSearchOverlay dialogue appears
 dataHeaderSearch.addEventListener(
     'click', 
     () => {
-        dataSearchOverlay.setAttribute('open', true)
+        dataSearchOverlay.setAttribute('open', true);
+        dataSearchTitle.focus(); //gives focus to an element (if it can be focused) immediately after the dom has been loaded
     }
 )
 
-const dataSearchTitle = document.querySelector('[data-search-title]')
-dataSearchOverlay.addEventListener(
+//cancel button in search overlay closes box
+dataSearchCancel.addEventListener(
     'click',
     () => {
-        dataSearchOverlay.open === true
-        dataSearchTitle.focus()
+        dataSearchOverlay.close();
+    }
+);
+
+//revealing night or dark mode overlay when icon clicked
+dataHeaderSettings.addEventListener(
+    'click',
+    () => {
+        dataSettingsOverlay.showModal();
+    }
+);
+
+//selecting night or dark mode
+dataSettingsForm.addEventListener(
+    'submit',
+    () => { //maybe the incorrect element is selected for theme to change?
+    
+        if (dataSettingsTheme.value === 'day') {
+            dataSettingsTheme.style.setProperty('--color-dark', theme.day.dark);
+            dataSettingsTheme.style.setProperty('--color-light', theme.day.light);
+        } else if (dataSettingsTheme.value === 'night') {
+            dataSettingsTheme.style.setProperty('--color-dark', theme.night.dark);
+            dataSettingsTheme.style.setProperty('--color-light', theme.night.light);
+        }
     }
 )
-// data-header-search.click() {
-//     data-search-overlay.open === true ;
-//     data-search-title.focus();
-// }
+//closes night or dark mode box
+dataSettingsCancel.addEventListener(
+    'click', 
+    () => {
+        dataSettingsOverlay.close()
+    }
+)
 
 
 
 
-// const dataSearchCancel = document.querySelector('[data-search-cancel]') //button
-
-
-// const dataSearchCancelToggle = (event) => {
-//     dataSearchOverlay.setAttribute('open', false);
-// }
-
-// dataSearchCancel.addEventListener('click', dataSearchCancelToggle);
-
-// console.log(dataSearchOverlay)
-// // data-search-cancel.click() { data-search-overlay.open === false } //previously
-
-
-
-// const dataSettingsCancel = document.querySelector('[data-settings-cancel]')
-// const dataSettingsOverlay = document.querySelector('[data-settings-overlay]')
-// dataSettingsCancel.addEventListener(
-//     'click', 
-//     () => {
-//         dataSettingsOverlay.open === false
-//     }
-// ) 
-// //data-settings-cancel.click() { querySelect(data-settings-overlay).open === false } //previously
-
-
-// // data-settings-form.submit() { actions.settings.submit } //search 'submit' event listener
-
-// const dataListClose = document.querySelector('[data-list-close]')
-// const dataListActive = document.querySelector('[data-list-active]')
 // dataListClose.addEventListener(
 //     'click',
 //     () => { 
@@ -179,6 +213,8 @@ dataSearchOverlay.addEventListener(
 // )
 // // data-list-close.click() { data-list-active.open === false } //previously
 
+
+//increments page to display more books (page containing certain amount of books gets incremented)
 
 // // const dataListButton = document.querySelector('[data-list-button]') //already declared
 // dataListItems.addEventListener(
@@ -199,8 +235,8 @@ dataSearchOverlay.addEventListener(
 // const dataSearchForm = document.addEventListener('[data-search-form]')
 // dataSearchForm.addEventListener(
 //     'click', 
-//     () => {
-//         preventDefault()
+//     (event) => {
+//         event.preventDefault()
 //         const formData = new FormData(event.target)
 //         const filters = Object.fromEntries(formData)
 //         result = []
