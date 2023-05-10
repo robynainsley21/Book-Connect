@@ -1,5 +1,5 @@
 import { BOOKS_PER_PAGE, authors, genres, books } from './data.js'
-// ininitialised variables assigned them
+
 const matches = books //books (from data.js) is an array of books (that are nested objects) 
 const page = 1;
 
@@ -35,14 +35,10 @@ const dataSearchGenres = document.querySelector('[data-search-genres]'); //input
 const dataSearchAuthors = document.querySelector('[data-search-authors]') //input to search author
 const dataHeaderSettings = document.querySelector('[data-header-settings]'); //search button for author, genre and title
 const dataSearchForm = document.querySelector('[data-search-form]') //form element
-
-
 const dataSettingsOverlay = document.querySelector('[data-settings-overlay]'); //pop-up box for theme settings
 const dataSettingsForm = document.querySelector('[data-settings-form]'); //form element
 const dataSettingsCancel = document.querySelector('[data-settings-cancel]'); //cancel button
 const dataSettingsTheme = document.querySelector('[data-settings-theme]'); //input for night and day
-
-
 const dataListItems = document.querySelector('[data-list-items]'); //all books
 const dataListClose = document.querySelector('[data-list-close]'); //close button
 const dataListActive = document.querySelector('[data-list-active]'); //reveals overlay for book preview
@@ -54,7 +50,7 @@ const dataListMessage = document.querySelector('[data-list-message]')
 // LOGIC TO DISPLAY BOOKS
 
 const fragmentMatches = document.createDocumentFragment();
-const extractedMatches = matches.slice(0, 36); //gets all the objects from books
+const extractedMatches = matches.slice(0, 36); //gets the first 36 objects from books
 
 //creating the content for the books first
 const revealBookPreview = (matches) => {
@@ -86,14 +82,14 @@ for (const book of extractedMatches){
 // LOGIC TO DISPLAY GENRES IN SEARCH BOX
 
 const genresFragment = document.createDocumentFragment(); //fragment for genres to be appended to
-const genresElement = document.createElement('option'); //type of html element
+const genresElement = document.createElement('option'); 
 
-//have to set element to sth i.o.t be appended to genres fragment; fallback for if loop does not exist
+//default values displayed until user makes selection
 genresElement.value = 'any';
 genresElement.innerText = 'All Genres'; //The value property sets or returns the value of the value attribute of a text field.
-genresFragment.appendChild(genresElement); //why is it being appended here and then in the loop again?
+genresFragment.appendChild(genresElement); 
 
-for ( const [ id, name ] of Object.entries(genres) ) {
+for ( const [ id, name ] of Object.entries(genres) ) { //loops through each genre item to retrieve id and name to set 'option' element's values
     const genreOption = document.createElement('option')
     genreOption.value = id;
     genreOption.innerText = name;
@@ -106,7 +102,7 @@ dataSearchGenres.appendChild(genresFragment)
 //LOGIC TO DISPLAY AUTHORS IN SEARCH BOX
 
 const authorsFragment = document.createDocumentFragment();
-const authorsElement = document.createElement('option'); //element to contain loop content
+const authorsElement = document.createElement('option'); 
 authorsElement.value = 'any';
 authorsElement.innerText = 'All Authors';
 authorsFragment.appendChild(authorsElement);
@@ -128,18 +124,15 @@ dataSearchAuthors.appendChild(authorsFragment)
 dataSettingsTheme.value = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
 const v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
 
-dataSettingsTheme.style.setProperty('--color-dark', theme[v].dark); // returns value of v
-dataSettingsTheme.style.setProperty('--color-light', theme[v].light);
 
 
-//LOGIC FOR CHANGING TO NEXT PAGE
-
+//LOGIC FOR CHANGING TO NEXT PAGE ('show more' BUTTON)
 
 if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditional is true
     dataListButton.disabled = true;
     
 } else {
-    dataListButton.innerHTML = //previously an array 
+    dataListButton.innerHTML = 
     `
     <span>Show more</span>
     <span class="list__remaining">(${matches.length - [page * BOOKS_PER_PAGE] > 0 ? matches.length - [page * BOOKS_PER_PAGE] : ''})</span>
@@ -150,7 +143,7 @@ if (matches.length - [page * BOOKS_PER_PAGE] <= 0){//disables button if conditio
 //LOGIC FOR EVENT LISTENERS    
 
 //creating logic for preview of books
-//LOGIC FOR FILTER SEARCH OVERLAY
+//tests for how many books are on the page to determine whether or not to display more books
 const remaining = () => {
     let initial = matches.length - (page * BOOKS_PER_PAGE)
     let hasRemaining = hasRemaining ? initial : 0
@@ -244,10 +237,10 @@ dataSearchForm.addEventListener(
 dataHeaderSearch.addEventListener(
     'click', 
     () => {
-        dataSearchOverlay.setAttribute('open', true);
-        dataSearchTitle.focus(); //gives focus to an element (if it can be focused) immediately after the dom has been loaded
+        dataSearchOverlay.showModal();
+        dataSearchTitle.focus(); 
     }
-)
+);
 
 //cancel button in search overlay closes box
 dataSearchCancel.addEventListener(
