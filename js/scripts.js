@@ -1,19 +1,18 @@
 import { BOOKS_PER_PAGE, authors, genres, books } from './data.js'
 // ininitialised variables assigned them
 const matches = books //books (from data.js) is an array of books (that are nested objects) 
-const page = 1 //why is this 1?
+const page = 1;
 
 if (!matches && !Array.isArray(matches)) { /* testing if books exists */
     throw new Error('Source required') 
 }
 
-if (!matches && matches.length < 2){ //previously range; what is range equal to?
+if (!matches && matches.length < 2){ 
     throw new Error('Range must be an array with two numbers')
 } 
 
 
 //rgb for toggle option for used to be able to choose between dark and light mode
-
 const theme = {
     day : {
         dark: '10, 10, 20',
@@ -27,6 +26,7 @@ const theme = {
 }
 
 //CLICKABLE ELEMENTS AND POPUP BOXES
+
 const dataSearchOverlay = document.querySelector('[data-search-overlay]');//search dialog box to be made visible
 const dataHeaderSearch = document.querySelector('[data-header-search]'); //button for search box
 const dataSearchTitle = document.querySelector('[data-search-title]'); //title input
@@ -43,11 +43,11 @@ const dataSettingsCancel = document.querySelector('[data-settings-cancel]'); //c
 const dataSettingsTheme = document.querySelector('[data-settings-theme]'); //input for night and day
 
 
-const dataListItems = document.querySelector('[data-list-items]');
+const dataListItems = document.querySelector('[data-list-items]'); //all books
 const dataListClose = document.querySelector('[data-list-close]'); //close button
 const dataListActive = document.querySelector('[data-list-active]'); //reveals overlay for book preview
-const dataListBlur = document.querySelector('[data-list-blur]'); //
-const dataListButton = document.querySelector('[data-list-button]'); //button to 
+const dataListBlur = document.querySelector('[data-list-blur]'); 
+const dataListButton = document.querySelector('[data-list-button]'); //button to display amount of books to filter through
 const dataListMessage = document.querySelector('[data-list-message]')
 
 
