@@ -12,7 +12,7 @@ if (!matches && matches.length < 2){
 } 
 
 
-//rgb for toggle option for used to be able to choose between dark and light mode
+//rgb for toggle option for dark and light mode
 const theme = {
     day : {
         dark: '10, 10, 20',
