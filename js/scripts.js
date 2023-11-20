@@ -61,8 +61,8 @@ const revealBookPreview = (matches) => {
     
     bookElement.innerHTML = 
     `
-    <div class="preview__info">
-        <h3 class="preview__title">${title}<h3> 
+    <div class="preview__info" key=${id}>
+        <h3 class="preview__title">${title}</h3> 
         <div class="preview__author">${author}</div>
     </div>
 
@@ -75,9 +75,10 @@ const revealBookPreview = (matches) => {
 //looping through each item in the selected objects in extractedMatches and appending created html content from revealBookPreview
 for (const book of extractedMatches){
     const bookPreview = revealBookPreview(book)
-    dataListItems.appendChild(bookPreview); //fragment containing books to be appended onto element [data-list-items]
+    fragmentMatches.appendChild(bookPreview); //fragment containing books to be appended onto element [data-list-items]
 }
 
+dataListItems.appendChild(fragmentMatches)
 
 // LOGIC TO DISPLAY GENRES IN SEARCH BOX
 
@@ -192,6 +193,7 @@ dataSearchForm.addEventListener(
             dataListMessage.classList.remove('list__message_show');
         }
         
+        //Preview modal of book
         dataListItems.innerHTML = ''
         const fragmentForPreview = document.createDocumentFragment()
         const extracted = source.slice(range[0], range[1])
@@ -219,7 +221,10 @@ dataSearchForm.addEventListener(
         }
         
         dataListItems.appendChild(fragmentForPreview)
-        
+
+        bookElement.addEventListener('click', () => {
+            console.log('i was clicked')
+        })
     
         dataListButton.innerHTML = /* html */ `
             <span>Show more</span>
@@ -231,7 +236,7 @@ dataSearchForm.addEventListener(
     }
 )
 
-
+// EVENT LISTENERS
 
 //when the dataHeaderSearch button is clicked, the dataSearchOverlay dialogue appears
 dataHeaderSearch.addEventListener(
@@ -290,11 +295,11 @@ dataListClose.addEventListener(
 )
 
 
-//increments page to display more books (page containing certain amount of books gets incremented)
+// increments page to display more books (page containing certain amount of books gets incremented)
 dataListItems.addEventListener(
     'click',
     () => { 
-        dataListItems.appendChild(createPreviewsFragment(matches, (page * BOOKS_PER_PAGE), (page + 1) * BOOKS_PER_PAGE))
+        // dataListItems.appendChild(createPreviewsFragment(matches, (page * BOOKS_PER_PAGE), (page + 1) * BOOKS_PER_PAGE))
         actions.list.updateRemaining()
         page = page + 1
     }
