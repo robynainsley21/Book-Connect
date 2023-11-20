@@ -196,16 +196,20 @@ dataSearchForm.addEventListener(
         //Preview modal of book
         dataListItems.innerHTML = ''
         const fragmentForPreview = document.createDocumentFragment()
-        const extracted = source.slice(range[0], range[1])
+        const extracted = matches.slice(range[0], range[1])
+        console.log('extracted data: ', extracted)
+
     
         for (let i = 0; i < extracted.length; i++) {
-            const { author: authorId, id, image, title } = props
-    
+            const { author: authorId, id, image, title } = extracted[i];
+
+
             const buttonElement = document.createElement('button');
-            buttonElement.classList.add = 'preview';
+            buttonElement.classList.add('preview');
             buttonElement.setAttribute('data-preview', id)
     
             buttonElement.innerHTML = /* html */ `
+            
                 <img
                     class="preview__image"
                     src="${image}"
@@ -215,16 +219,13 @@ dataSearchForm.addEventListener(
                     <h3 class="preview__title">${title}</h3>
                     <div class="preview__author">${authors[authorId]}</div>
                 </div>
+           
             `
     
-            fragment.appendChild(element)
+            fragmentForPreview.appendChild(buttonElement);
         }
         
-        dataListItems.appendChild(fragmentForPreview)
-
-        bookElement.addEventListener('click', () => {
-            console.log('i was clicked')
-        })
+        dataListItems.appendChild(fragmentForPreview);
     
         dataListButton.innerHTML = /* html */ `
             <span>Show more</span>
@@ -296,15 +297,27 @@ dataListClose.addEventListener(
 
 
 // increments page to display more books (page containing certain amount of books gets incremented)
+// dataListItems.addEventListener(
+//     'click',
+//     (event) => { 
+//         // dataListItems.appendChild(createPreviewsFragment(matches, (page * BOOKS_PER_PAGE), (page + 1) * BOOKS_PER_PAGE))
+//         actions.list.updateRemaining()
+//         page = page + 1
+//     }
+// )
+
 dataListItems.addEventListener(
     'click',
-    () => { 
-        // dataListItems.appendChild(createPreviewsFragment(matches, (page * BOOKS_PER_PAGE), (page + 1) * BOOKS_PER_PAGE))
-        actions.list.updateRemaining()
-        page = page + 1
+    (event) => {
+        console.log('clicked element: ', event.target)
+        const previewElement= event.target.closest('.preview');
+        if(previewElement) {
+            const bookId = previewElement.getAttribute('data-preview');
+            console.log('clicked on book with id: ', bookId)
+            
+        }
     }
 )
-
 
 
 
