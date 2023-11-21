@@ -54,8 +54,8 @@ const extractedMatches = matches.slice(0, 36); //gets the first 36 objects from 
 
 //creating the content for the books first
 const revealBookPreview = (matches) => {
-    const { author, id, image, title } = matches //extracting the properties of the objects in the matches array
-    const bookElement = document.createElement('div') //creating a piece of html to attach content to (was none previously)
+    const { author, id, image, title } = matches; //extracting the properties of the objects in the matches array
+    const bookElement = document.createElement('button'); //creating a piece of html to attach content to (was none previously)
 
     bookElement.classList.add('preview'); //adding the class 'preview' from css file to apply styling
     
@@ -74,7 +74,7 @@ const revealBookPreview = (matches) => {
 
 //looping through each item in the selected objects in extractedMatches and appending created html content from revealBookPreview
 for (const book of extractedMatches){
-    const bookPreview = revealBookPreview(book)
+    const bookPreview = revealBookPreview(book);
     fragmentMatches.appendChild(bookPreview); //fragment containing books to be appended onto element [data-list-items]
 }
 
@@ -122,9 +122,9 @@ dataSearchAuthors.appendChild(authorsFragment)
 
 //window.matchMedia returns a new MediaQueryList object that can then be used to determine if the document matches the media query string, 
 //as well as to monitor the document to detect when it matches (or stops matching) that media query.
-dataSettingsTheme.value = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
-const v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
 
+const initialTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
+dataSettingsTheme.value = initialTheme;
 
 
 //LOGIC FOR CHANGING TO NEXT PAGE ('show more' BUTTON)
@@ -195,6 +195,8 @@ dataSearchForm.addEventListener(
         
         //Preview modal of book
         dataListItems.innerHTML = ''
+
+        const range = matches;
         const fragmentForPreview = document.createDocumentFragment()
         const extracted = matches.slice(range[0], range[1])
         console.log('extracted data: ', extracted)
@@ -204,11 +206,11 @@ dataSearchForm.addEventListener(
             const { author: authorId, id, image, title } = extracted[i];
 
 
-            const buttonElement = document.createElement('button');
-            buttonElement.classList.add('preview');
-            buttonElement.setAttribute('data-preview', id)
+            const previewElement = document.createElement('div');
+            previewElement.classList.add('preview');
+            previewElement.setAttribute('data-preview', id)
     
-            buttonElement.innerHTML = /* html */ `
+            previewElement.innerHTML = /* html */ `
             
                 <img
                     class="preview__image"
@@ -222,7 +224,7 @@ dataSearchForm.addEventListener(
            
             `
     
-            fragmentForPreview.appendChild(buttonElement);
+            fragmentForPreview.appendChild(previewElement);
         }
         
         dataListItems.appendChild(fragmentForPreview);
@@ -267,15 +269,18 @@ dataHeaderSettings.addEventListener(
 //selecting night or dark mode
 dataSettingsForm.addEventListener(
     'submit',
-    () => { 
-    
+    (event) => { 
+        event.preventDefault();
+
         if (dataSettingsTheme.value === 'day') {
-            dataSettingsTheme.style.setProperty('--color-dark', theme.day.dark);
-            dataSettingsTheme.style.setProperty('--color-light', theme.day.light);
+            document.body.style.setProperty('--color-dark', theme.day.dark);
+            document.body.style.setProperty('--color-light', theme.day.light);
         } else if (dataSettingsTheme.value === 'night') {
-            dataSettingsTheme.style.setProperty('--color-dark', theme.night.dark);
-            dataSettingsTheme.style.setProperty('--color-light', theme.night.light);
+            document.body.style.setProperty('--color-dark', theme.night.dark);
+            document.body.style.setProperty('--color-light', theme.night.light);
         }
+
+        dataSettingsOverlay.close();
     }
 )
 
