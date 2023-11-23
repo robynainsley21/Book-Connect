@@ -1,6 +1,6 @@
 import { BOOKS_PER_PAGE, authors, genres, books } from './data.js'
 
-const matches = books //books (from data.js) is an array of books (that are nested objects) 
+let matches = books //books (from data.js) is an array of books (that are nested objects) 
 const page = 1;
 
 if (!matches && !Array.isArray(matches)) { /* testing if books exists */
@@ -156,11 +156,12 @@ const remaining = () => {
 
 //logic to retrieve book as requested or searched by user
 dataSearchForm.addEventListener(
-    'click', 
+    'submit', 
     (event) => {
         event.preventDefault()
         const formData = new FormData(dataSearchForm);
         const filters = Object.fromEntries(formData);
+
         let result = [];
     
         for (const book of matches) {
@@ -168,7 +169,7 @@ dataSearchForm.addEventListener(
             let authorMatch = true;
             let genreMatch = true;
 
-            if (filters.title) {
+            if (filters.title !== '') {
                 titleMatch = book.title.toLowerCase().trim().includes(filters.title.toLowerCase());
             }
 
@@ -187,6 +188,8 @@ dataSearchForm.addEventListener(
                 result.push(book)
             } 
         }
+
+        matches = result;
     
         if (result.length < 1){
             dataListMessage.classList.add('list__message_show');
