@@ -49,21 +49,22 @@ const dataListMessage = document.querySelector('[data-list-message]')
 
 // LOGIC TO DISPLAY BOOKS
 
-const fragmentMatches = document.createDocumentFragment();
+const fragment = document.createDocumentFragment();
 const extractedMatches = matches.slice(0, 36); //gets the first 36 objects from books
 
 //creating the content for the books first
-const revealBookPreview = (matches) => {
-    const { author, id, image, title } = matches; //extracting the properties of the objects in the matches array
-    const bookElement = document.createElement('button'); //creating a piece of html to attach content to (was none previously)
+const revealBookPreview = (props) => {
+    const { author, id, image, title } = props; //extracting the properties of the objects in the matches array
+    const bookElement = document.createElement("button"); //creating a piece of html to attach content to (was none previously)
 
-    bookElement.classList.add('preview'); //adding the class 'preview' from css file to apply styling
+    bookElement.classList.add("preview"); //adding the class 'preview' from css file to apply styling
+    // bookElement.dataset.preview = id;
     
     bookElement.innerHTML = 
     `
-    <div class="preview__info" key=${id}>
+    <div class="preview__info">
         <h3 class="preview__title">${title}</h3> 
-        <div class="preview__author">${author}</div>
+        <div class="preview__author">${authors[author]}</div>
     </div>
 
     <img class="preview__image" src="${image}"/>
@@ -75,10 +76,10 @@ const revealBookPreview = (matches) => {
 //looping through each item in the selected objects in extractedMatches and appending created html content from revealBookPreview
 for (const book of extractedMatches){
     const bookPreview = revealBookPreview(book);
-    fragmentMatches.appendChild(bookPreview); //fragment containing books to be appended onto element [data-list-items]
+    fragment.appendChild(bookPreview); //fragment containing books to be appended onto element [data-list-items]
 }
 
-dataListItems.appendChild(fragmentMatches)
+dataListItems.appendChild(fragment)
 
 // LOGIC TO DISPLAY GENRES IN SEARCH BOX
 
