@@ -1,6 +1,6 @@
 import { BOOKS_PER_PAGE, authors, genres, books } from './data.js'
 
-const matches = books //books (from data.js) is an array of books (that are nested objects) 
+let matches = books //books (from data.js) is an array of books (that are nested objects) 
 const page = 1;
 
 if (!matches && !Array.isArray(matches)) { /* testing if books exists */
@@ -49,41 +49,36 @@ const dataListMessage = document.querySelector('[data-list-message]')
 
 // LOGIC TO DISPLAY BOOKS
 
-const fragmentMatches = document.createDocumentFragment();
+const fragment = document.createDocumentFragment();
 const extractedMatches = matches.slice(0, 36); //gets the first 36 objects from books
 
-const createPreview = (props) => {
-    const { author, id, image, title } = props;
+//creating the content for the books first
+const revealBookPreview = (matches) => {
+    const { author, id, image, title } = matches; //extracting the properties of the objects in the matches array
+    const bookElement = document.createElement('button'); //creating a piece of html to attach content to (was none previously)
 
-    const element = document.createElement('button');
-    element.classList.add('preview');
-    element.dataset.preview = id;
-    element.innerHTML = /* html */ `
-        <img 
-            class="preview__image" 
-            src="${image}" 
-        />
-        
-        <div class="preview__info">
-            <h3 class="preview__title">${title}</h3>
-            <div class="preview__author">${authors[author]}</div>
-        </div>
+    bookElement.classList.add('preview'); //adding the class 'preview' from css file to apply styling
+    
+    bookElement.innerHTML = 
+    `
+    <div class="preview__info" key=${id}>
+        <h3 class="preview__title">${title}</h3> 
+        <div class="preview__author">${author}</div>
+    </div>
+
+    <img class="preview__image" src="${image}"/>
     `;
 
-    return element;
-};
-
-// Your loop to create and append book previews
-const fragment = document.createDocumentFragment();
-const extracted = matches.slice(0, BOOKS_PER_PAGE);
-
-for (const bookIndex of extracted) {
-    const preview = createPreview(bookIndex);
-    fragment.appendChild(preview);
+    return bookElement;
 }
 
-document.querySelector("[data-list-items]").appendChild(fragment);
+//looping through each item in the selected objects in extractedMatches and appending created html content from revealBookPreview
+for (const book of extractedMatches){
+    const bookPreview = revealBookPreview(book);
+    fragmentMatches.appendChild(bookPreview); //fragment containing books to be appended onto element [data-list-items]
+}
 
+dataListItems.appendChild(fragmentMatches)
 
 // LOGIC TO DISPLAY GENRES IN SEARCH BOX
 
@@ -160,11 +155,12 @@ const remaining = () => {
 
 //logic to retrieve book as requested or searched by user
 dataSearchForm.addEventListener(
-    'click', 
+    'submit', 
     (event) => {
         event.preventDefault()
         const formData = new FormData(dataSearchForm);
         const filters = Object.fromEntries(formData);
+
         let result = [];
     
         for (const book of matches) {
@@ -172,7 +168,7 @@ dataSearchForm.addEventListener(
             let authorMatch = true;
             let genreMatch = true;
 
-            if (filters.title) {
+            if (filters.title !== '') {
                 titleMatch = book.title.toLowerCase().trim().includes(filters.title.toLowerCase());
             }
 
@@ -191,6 +187,8 @@ dataSearchForm.addEventListener(
                 result.push(book)
             } 
         }
+
+        matches = result;
     
         if (result.length < 1){
             dataListMessage.classList.add('list__message_show');
