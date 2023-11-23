@@ -58,6 +58,7 @@ const revealBookPreview = (props) => {
     const bookElement = document.createElement("button"); //creating a piece of html to attach content to (was none previously)
 
     bookElement.classList.add("preview"); //adding the class 'preview' from css file to apply styling
+    // bookElement.dataset.preview = id;
     
     bookElement.innerHTML = 
     `
