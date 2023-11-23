@@ -52,33 +52,38 @@ const dataListMessage = document.querySelector('[data-list-message]')
 const fragmentMatches = document.createDocumentFragment();
 const extractedMatches = matches.slice(0, 36); //gets the first 36 objects from books
 
-//creating the content for the books first
-const revealBookPreview = (matches) => {
-    const { author, id, image, title } = matches; //extracting the properties of the objects in the matches array
-    const bookElement = document.createElement('button'); //creating a piece of html to attach content to (was none previously)
+const createPreview = (props) => {
+    const { author, id, image, title } = props;
 
-    bookElement.classList.add('preview'); //adding the class 'preview' from css file to apply styling
-    
-    bookElement.innerHTML = 
-    `
-    <div class="preview__info" key=${id}>
-        <h3 class="preview__title">${title}</h3> 
-        <div class="preview__author">${author}</div>
-    </div>
-
-    <img class="preview__image" src="${image}"/>
+    const element = document.createElement('button');
+    element.classList.add('preview');
+    element.dataset.preview = id;
+    element.innerHTML = /* html */ `
+        <img 
+            class="preview__image" 
+            src="${image}" 
+        />
+        
+        <div class="preview__info">
+            <h3 class="preview__title">${title}</h3>
+            <div class="preview__author">${authors[author]}</div>
+        </div>
     `;
 
-    return bookElement;
+    return element;
+};
+
+// Your loop to create and append book previews
+const fragment = document.createDocumentFragment();
+const extracted = matches.slice(0, BOOKS_PER_PAGE);
+
+for (const bookIndex of extracted) {
+    const preview = createPreview(bookIndex);
+    fragment.appendChild(preview);
 }
 
-//looping through each item in the selected objects in extractedMatches and appending created html content from revealBookPreview
-for (const book of extractedMatches){
-    const bookPreview = revealBookPreview(book);
-    fragmentMatches.appendChild(bookPreview); //fragment containing books to be appended onto element [data-list-items]
-}
+document.querySelector("[data-list-items]").appendChild(fragment);
 
-dataListItems.appendChild(fragmentMatches)
 
 // LOGIC TO DISPLAY GENRES IN SEARCH BOX
 
@@ -194,7 +199,7 @@ dataSearchForm.addEventListener(
         }
         
         //Preview modal of book
-        dataListItems.innerHTML = ''
+        dataListItems.innerHTML = '' ;
 
         const range = matches;
         const fragmentForPreview = document.createDocumentFragment()
@@ -202,37 +207,38 @@ dataSearchForm.addEventListener(
         console.log('extracted data: ', extracted)
 
     
-        for (let i = 0; i < extracted.length; i++) {
-            const { author: authorId, id, image, title } = extracted[i];
+for (let i = 0; i < extracted.length; i++) {
+    const { author: authorId, id, image, title } = extracted[i];
 
+    // Log the id value before setting it as data-preview attribute
+    console.log('Book ID:', id);
 
-            const previewElement = document.createElement('div');
-            previewElement.classList.add('preview');
-            previewElement.setAttribute('data-preview', id)
-    
-            previewElement.innerHTML = /* html */ `
-            
-                <img
-                    class="preview__image"
-                    src="${image}"
-                />
-                
-                <div class="preview__info">
-                    <h3 class="preview__title">${title}</h3>
-                    <div class="preview__author">${authors[authorId]}</div>
-                </div>
-           
-            `
-    
-            fragmentForPreview.appendChild(previewElement);
-        }
+    const previewElement = document.createElement('div');
+    previewElement.classList.add('preview');
+    previewElement.setAttribute('data-preview', id);
+
+    previewElement.innerHTML = /* html */ `
+        <img
+            class="preview__image"
+            src="${image}"
+        />
+        <div class="preview__info">
+            <h3 class="preview__title">${title}</h3>
+            <div class="preview__author">${authors[authorId]}</div>
+        </div>
+    `;
+
+    fragmentForPreview.appendChild(previewElement);
+}
+
         
         dataListItems.appendChild(fragmentForPreview);
     
         dataListButton.innerHTML = /* html */ `
-            <span>Show more</span>
-            <span class="list__remaining"> (${remaining})</span>
-        `
+    <span>Show more</span>
+    <span class="list__remaining"> (${remaining()})</span>
+`
+
     
         window.scrollTo({ top: 0, behavior: 'smooth' });
         dataSearchOverlay.close();
@@ -310,19 +316,51 @@ dataListClose.addEventListener(
 //         page = page + 1
 //     }
 // )
+function findBookById(bookId) {
+    return books.find(book => book.id == bookId);
+}
 
-dataListItems.addEventListener(
-    'click',
-    (event) => {
-        console.log('clicked element: ', event.target)
-        const previewElement= event.target.closest('.preview');
-        if(previewElement) {
-            const bookId = previewElement.getAttribute('data-preview');
-            console.log('clicked on book with id: ', bookId)
-            
+// Your logic to display book details
+function displayBookDetails(book) {
+    const overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+
+    const genreNames = book.genres.map(genreId => genres[genreId]);
+
+    overlay.innerHTML = `
+        <div class="preview">
+            <img class="preview__image" src="${book.image}" />
+            <div class="preview__info" data-preview="${book.id}">
+                <h3 class="preview__title">${book.title}</h3>
+                <div class="preview__author">${authors[book.author]}</div>
+                <p>Genres: ${genreNames.join(', ')}</p>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) {
+            overlay.remove();
+        }
+    });
+}
+
+
+// Your event listener for book previews
+document.querySelector("[data-list-items]").addEventListener('click', (event) => {
+    const previewElement = event.target.closest('.preview');
+
+    if (previewElement) {
+        const bookId = previewElement.dataset.preview;
+        const book = findBookById(bookId);
+
+        if (book) {
+            displayBookDetails(book);
+        } else {
+            console.error(`Book with ID ${bookId} not found.`);
         }
     }
-)
-
-
+});
 
